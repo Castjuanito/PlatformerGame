@@ -84,7 +84,7 @@
 
 			function createCube(sx, sy, sz, p, ry){
 
-				var cube = new THREE.Mesh( new THREE.CubeGeometry( sx, sy, sz ), new THREE.MeshLambertMaterial( { color: 0x003300 } ) );
+				var cube = new THREE.Mesh( new THREE.CubeGeometry( sx, sy, sz ), new THREE.MeshLambertMaterial( { color: color() } ) );
 				cube.position = p;
 				cube.rotation.y = ry;
 				scene.add(cube);
@@ -92,6 +92,41 @@
 				THREE.Collisions.colliders.push( THREE.CollisionUtils.MeshOBB(cube) );
 				cubes.push(cube);
 				return cube;
+			}
+
+			function randomHex() {
+    var hexNumbers = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F'
+]
+
+    // picking a random item of the array
+  return hexNumbers[Math.floor(Math.random() * hexNumbers.length)];
+}
+
+			function color()
+			{
+
+				hexValue = ['0x'];
+    for (var i = 0; i < 6; i += 1) {
+        hexValue.push(randomHex());
+    }
+
+    return hexValue.join('');
 			}
 
 			function animate() {

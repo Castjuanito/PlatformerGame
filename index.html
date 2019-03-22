@@ -44,7 +44,7 @@
         var rtHeld = false;
         var range = 400;
         var speed = 1;
-        var sphereSize = 4;
+        var sphereSize = 8;
         var cubes = [];
         var vy = 0;
         var vx = 0;
@@ -62,7 +62,8 @@
             camera.position.set(300, 120, 0);
             scene = new THREE.Scene();
             sphere = new THREE.Mesh(new THREE.SphereGeometry(sphereSize, 10, 10), new THREE.MeshLambertMaterial({ color: color() }));
-            sphere.position.y = 100;
+			sphere.position.y = 100;
+			camera.target = sphere.position;
             scene.add(sphere);
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -84,7 +85,7 @@
 			scene.add(cube);
 			THREE.Collisions.colliders.push(THREE.CollisionUtils.MeshOBB(cube));
 			cubes.push(cube);
-			camera.target = cube.position;
+			//camera.target = cube.position;
 			var randomX;
 			var posY = 0;
 			var izquierda = false;

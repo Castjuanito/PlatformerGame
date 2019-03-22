@@ -7,12 +7,22 @@
         <meta name="keywords" content="Threejs, three.js, webgl, web gl, platform, game, platformer, javascript, HTML5">
         <meta name="description" content="A simple platform game demo using WebGL and Three.js. Keyboard control - left/ right arrow keys move, up is jump. Programmed in JavaScript. Check back for a more polished version soon!">
 		<style>
-			body {
-				font-family: Monospace;
-				background-color: #f0f0f0;
-				margin: 0px;
-				overflow: hidden;
-			}
+		body {
+
+			background: gray url(https://image.freepik.com/free-vector/memphis-pattern_1045-810.jpg) repeat 0 0;
+			width: 100%;
+			margin: 0;
+			text-align: center;
+			height: 300px;
+			padding-top: 120px;
+			box-sizing: border-box;
+			-webkit-animation: slide 20s linear infinite;
+
+		}
+		@-webkit-keyframes slide {
+			from { background-position: 0 0; }
+			to { background-position: 0 400px; }
+		}
 
 		</style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.min.js "></script>
@@ -40,12 +50,16 @@
 			var jumping = false;
 			var inAir = true;
 			var gravity = 0.3;
+			var myMusic;
 
 			function init(){
 
 				container = document.createElement('div');
 				document.body.appendChild(container);
 
+				var myMusic;
+				myMusic = new sound("Katamari Damacy - Lonely Rolling Star.mp3");
+				myMusic.play()
 
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.set( 300, 120, 0 );
@@ -221,6 +235,21 @@
 					vy = -3;
 				}
 			}
+
+			function sound(src) {
+	this.sound = document.createElement("audio");
+	this.sound.src = src;
+	this.sound.setAttribute("preload", "auto");
+	this.sound.setAttribute("controls", "none");
+	this.sound.style.display = "none";
+	document.body.appendChild(this.sound);
+	this.play = function(){
+			this.sound.play();
+	}
+	this.stop = function(){
+			this.sound.pause();
+	}
+}
 
 
 		</script>

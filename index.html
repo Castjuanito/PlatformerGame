@@ -52,6 +52,7 @@
         var inAir = true;
         var gravity = 0.3;
         var myMusic;
+        var alturaMax;
         function init() {
             container = document.createElement('div');
             document.body.appendChild(container);
@@ -102,9 +103,11 @@
 					izquierda = true;
 				}
 				randomAncho = Math.floor(Math.random() * (150 - 20)) + 20;
-				posY += 40;
+                posY += 40;
+                
 				createCube(100, 10, randomAncho, new THREE.Vector3(0, posY, randomX), 0);
-			}
+            }
+            alturaMax = posY;
 			//createCube(100, 10, 100, new THREE.Vector3(0, 80, 170), 0);
 			//createCube(100, 10, 100, new THREE.Vector3( 0, 160, 0), 0);
 			//createCube(100,10,100,new THREE.Vector3(0,150,300),0); // El primero es posicionY y el tercero es longitud y
@@ -156,6 +159,14 @@
                 camera.position.y = sphere.position.y + 200;
             }
             camera.position.z = sphere.position.z + 200;
+
+            if (sphere.position.y <-500) {
+                perder();
+            }
+            if(sphere.position.y > alturaMax+80)
+            {
+                ganar();
+            }
             vy += gravity;
             if (inAir) {
                 if (vy > 5) {
@@ -236,6 +247,16 @@
             this.stop = function () {
                 this.sound.pause();
             }
+        }
+
+        function perder() {
+            alert("PERDIO MALO");
+            setTimeout("location.reload(true);",1500);
+        }
+
+        function ganar(){
+            alert("GANO");
+            setTimeout("location.reload(true);",1500);
         }
     </script>
 </head>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>three.js webgl - very simple platform game starter</title>
+    <title>Juego plataforma melo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <meta name="keywords" content="Threejs, three.js, webgl, web gl, platform, game, platformer, javascript, HTML5">
@@ -14,9 +14,9 @@
             margin: 0;
             text-align: center;
             height: 300px;
-            padding-top: 120px;
+            
             box-sizing: border-box;
-            -webkit-animation: slide 20s linear infinite;
+            -webkit-animation: slide 15s linear infinite;
         }
 
         @-webkit-keyframes slide {
@@ -52,11 +52,14 @@
         var inAir = true;
         var gravity = 0.3;
         var myMusic;
+        var LMusic;
+        var WMusic;
         var alturaMax;
+        var atl = 0;
         function init() {
             container = document.createElement('div');
             document.body.appendChild(container);
-            var myMusic;
+            
             myMusic = new sound("Katamari Damacy - Lonely Rolling Star.mp3");
             myMusic.play()
             camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
@@ -64,8 +67,9 @@
             scene = new THREE.Scene();
             sphere = new THREE.Mesh(new THREE.SphereGeometry(sphereSize, 10, 10), new THREE.MeshLambertMaterial({ color: color() }));
 			sphere.position.y = 100;
-			camera.target = sphere.position;
+			
             scene.add(sphere);
+            camera.target = sphere.position;
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
@@ -86,7 +90,7 @@
 			scene.add(cube);
 			THREE.Collisions.colliders.push(THREE.CollisionUtils.MeshOBB(cube));
 			cubes.push(cube);
-			//camera.target = cube.position;
+			
 			var randomX;
 			var posY = 0;
 			var izquierda = false;
@@ -152,19 +156,37 @@
             }
             return hexValue.join('');
         }
+
+
+
+
         function animate() {
             requestAnimationFrame(animate);
             camera.position.x = sphere.position.x + 400;
             if (jumping == true) {
                 camera.position.y = sphere.position.y + 200;
             }
-            camera.position.z = sphere.position.z + 200;
+            
 
+            
+            
+            if (sphere.position.y <0) {
+                camera.position.x = sphere.position.x + 400;
+                camera.position.y = sphere.position.y + 200;
+                camera.position.z = sphere.position.z + 200;
+            }
             if (sphere.position.y <-500) {
+                myMusic.stop()
+                LMusic = new sound("Game Over - Super Mario Sunshine.mp3");
+                LMusic.play()
                 perder();
             }
             if(sphere.position.y > alturaMax+80)
             {
+                myMusic.stop()
+                WMusic = new sound("Marios Victory Theme.mp3");
+                WMusic.play()
+               
                 ganar();
             }
             vy += gravity;
@@ -190,6 +212,7 @@
                 inAir = false;
                 vy = 0; 		// switch gravity off
                 jumping = false;
+                
             }
             if (inAir == false && c.distance < sphereSize) {
                 sphere.position.y -= 1;
@@ -217,6 +240,7 @@
                 case KEYCODE_RIGHT: rtHeld = true; break;
                 case KEYCODE_W: ;
                 case KEYCODE_UP: jump(); break;
+                //case KEYCODE_SP: reestablecer(); break;
             }
         }
         function handleKeyUp(e) {
@@ -249,13 +273,16 @@
             }
         }
 
+        
+
         function perder() {
+            
             alert("PERDIO MALO");
             setTimeout("location.reload(true);",1500);
         }
 
         function ganar(){
-            alert("GANO");
+            alert("GANO PRO");
             setTimeout("location.reload(true);",1500);
         }
     </script>
